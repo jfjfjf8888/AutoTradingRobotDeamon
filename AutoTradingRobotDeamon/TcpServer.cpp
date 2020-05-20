@@ -45,7 +45,7 @@ void TcpServer::incomingConnection(qintptr handle) {
 		&tcp_server_private::TcpSocket::DisconnectSocket);
 	//map记录
 	private_->clients.insert(handle, client_socket);
-	qDebug() << handle << "connected";
+	qDebug() << "-->" << handle << "connected";
 	emit ClientConnected(handle, client_socket);
 }
 
@@ -53,7 +53,7 @@ void TcpServer::incomingConnection(qintptr handle) {
 void TcpServer::ClientDisconnectedSlot(qintptr handle) {
 	//map中移除
 	private_->clients.remove(handle);
-	qDebug() << handle << "disconnected";
+	qDebug() << "-->" << handle << "disconnected";
 	//发出信号
 	emit ClientDisconnected(handle);
 }

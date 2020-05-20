@@ -49,6 +49,7 @@ signals:
 	void InitiativeDisConnectClient(qintptr);
 
 protected slots:
+
 	/**
 	* @brief 客户端已断开槽
 	*   此槽与客户端的已断开信号连接
