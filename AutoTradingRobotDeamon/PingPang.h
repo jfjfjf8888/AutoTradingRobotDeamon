@@ -42,6 +42,7 @@ public slots:
 
 	void readyRead();
 	void timeout();
+	void finished(int exitCode);
 private:
 	TcpServer m_server;
 	QMap<qintptr, QTimer *> m_timerClientHandleMap;

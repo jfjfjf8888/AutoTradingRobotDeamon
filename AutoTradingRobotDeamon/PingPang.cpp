@@ -98,7 +98,10 @@ void PingPang::timeout()
 		if (!name.isEmpty()) {
 			qDebug() << "--> Launch robot.";
 			qDebug() << "--> Full path:" << name;
-			QProcess* process = new QProcess;
+			QProcess * process = new QProcess;
+
+			connect(process, SIGNAL(finished(int)), this, SLOT(finished(int)));
+
 			process->start(name, QStringList());
 			if (process->waitForStarted(1000)) {
 				qDebug() << "--> Launch done.";
@@ -121,4 +124,9 @@ void PingPang::timeout()
 			m_timerClientNameMap.remove(handle);
 		}
 	}
+}
+
+void PingPang::finished(int exitCode)
+{
+	delete sender();
 }
