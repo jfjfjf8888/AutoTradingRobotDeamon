@@ -3,15 +3,17 @@
 #include <QJsonParseError>
 #include <QTimer>
 #include <QProcess>
+#include <QNetworkProxy>
 
 PingPang::PingPang()
 {
+	m_server.setProxy(QNetworkProxy::NoProxy);
 	m_server.setMaxPendingConnections(SERVER_MAX_CLIENT);
 	if (!m_server.listen(QHostAddress::Any, PORT)) {
 		qDebug() << m_server.errorString(); // 如果出错就输出错误信息，并关闭
 		return;
 	}
-
+	
 	connect(&m_server, &TcpServer::ClientConnected, this, &PingPang::ClientConnected);
 	connect(&m_server, &TcpServer::ClientDisconnected, this, &PingPang::ClientDisconnected);
 	connect(&m_server, &TcpServer::InitiativeDisConnectClient, this, &PingPang::InitiativeDisConnectClient);
@@ -38,7 +40,7 @@ void PingPang::ClientConnected(qintptr handle, QTcpSocket * socket)
 	QString seyhi = "{\"msg\": \"welcome\"}";
 	socket->write(seyhi.toUtf8());
 
-	timer->start(5000);
+	timer->start(3000);
 }
 
 void PingPang::ClientDisconnected(qintptr handle)
@@ -94,9 +96,19 @@ void PingPang::timeout()
 		qintptr handle = m_timerClientHandleMap.key(timer);
 		QString name = m_timerClientNameMap.value(handle);
 		if (!name.isEmpty()) {
-			qDebug() << "launch robot.";
+			qDebug() << "--> Launch robot.";
+			qDebug() << "--> Full path:" << name;
 			QProcess* process = new QProcess;
-			process->start(name, QStringList() << "");
+			process->start(name, QStringList());
+			if (process->waitForStarted(1000)) {
+				qDebug() << "--> Launch done.";
+			}
+			else {
+				qDebug() << "-->" << process->errorString();
+			}
+
+			qDebug() << QString::fromLocal8Bit(process->readAllStandardError());
+		
 
 			// 拉活后删除自己，等待拉活的进程链接进来
 			QTimer * timer = m_timerClientHandleMap.value(handle, nullptr);
