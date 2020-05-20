@@ -52,6 +52,9 @@
     <ClCompile Include="tcp_server_private.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PingPang.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="TcpServer.h">
@@ -60,5 +63,10 @@
     <CustomBuild Include="tcp_server_private.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PingPang.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -7,6 +7,7 @@ namespace tcp_server_private {
 }
 
 class QTcpSocket;
+
 /**
 * @brief Tcp多客户端服务器
 */
