@@ -110,9 +110,6 @@ void PingPang::timeout()
 				qDebug() << "-->" << process->errorString();
 			}
 
-			qDebug() << QString::fromLocal8Bit(process->readAllStandardError());
-		
-
 			// 拉活后删除自己，等待拉活的进程链接进来
 			QTimer * timer = m_timerClientHandleMap.value(handle, nullptr);
 			if (timer) {
@@ -128,5 +125,6 @@ void PingPang::timeout()
 
 void PingPang::finished(int exitCode)
 {
+	qDebug() << "--> Process exited, delete process pointer.";
 	delete sender();
 }
